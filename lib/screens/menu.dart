@@ -4,7 +4,6 @@ class MenuScreen extends StatelessWidget {
   final List<MenuItem> menuItems = [
     MenuItem(icon: Icons.person, title: 'My Profile'),
     MenuItem(icon: Icons.contact_mail, title: 'Contact us'),
-    MenuItem(icon: Icons.history, title: 'History'),
     MenuItem(icon: Icons.palette, title: 'Theme'),
     MenuItem(icon: Icons.share, title: 'Share'),
     MenuItem(icon: Icons.star_rate, title: 'Rate'),
@@ -14,14 +13,12 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFF3F5FD),
+
       appBar: AppBar(
-        title: Text('Elango'),
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            // Close the menu
-          },
-        ),
+        backgroundColor: Color(0xFF22538D),
+
+        title: Text('Menu', style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
         itemCount: menuItems.length,
@@ -47,14 +44,17 @@ class MenuItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(menuItem.icon, color: Colors.grey),
-      title: Text(menuItem.title),
-      trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
-      tileColor: Colors.white,
-      onTap: () {
-        // Handle menu item tap
-      },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading: Icon(menuItem.icon, color: Colors.blue),
+        title: Text(menuItem.title),
+        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+        tileColor: Colors.white,
+        onTap: () {
+          // Handle menu item tap
+        },
+      ),
     );
   }
 }

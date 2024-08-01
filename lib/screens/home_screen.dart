@@ -2,6 +2,8 @@ import 'package:cms_customer/screens/post.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import 'categories.dart';
+import 'history.dart';
 import 'menu.dart';
 import 'mypost.dart';
 
@@ -46,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreenBody(),
     OrdersScreen(),
-    PostRequestScreen(),
-    MenuScreen(),
+    Categories(),
+    History(),
     MenuScreen(),
   ];
 
@@ -191,7 +193,7 @@ class HomeScreenBody extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 30, color: Colors.black),
+            Icon(icon, size: 30, color: Colors.blue),
             SizedBox(height: 10),
             Text(
               label,
