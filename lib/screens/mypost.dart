@@ -13,7 +13,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Color(0xFFFF3F5FD),
         appBar: AppBar(
+          backgroundColor: Color(0xFFFF3F5FD),
           title: Text('Orders'),
           bottom: TabBar(
             tabs: [
@@ -72,13 +74,17 @@ class OrderTile extends StatelessWidget {
               SizedBox(width: 8),
               Text('Cleaning', style: TextStyle(fontSize: 16)),
               Spacer(),
-              OrderStatusBadge(status: 'Pending'),
+              Column(
+                children: [
+                  OrderStatusBadge(status: 'Pending'),
+                  Text('2 hrs ago', style: TextStyle(color: Colors.grey)),
+
+                ],
+              ),
             ],
           ),
-          SizedBox(height: 8),
-          Text('I want Room cleaner for my room cleaning rooms...', style: TextStyle(color: Colors.grey)),
-          SizedBox(height: 8),
-          Text('2 hrs ago', style: TextStyle(color: Colors.grey)),
+
+
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'mypost.dart';
 
 class HomeScreen extends StatefulWidget {
   final String welcomeMessage;
+
   HomeScreen({required this.welcomeMessage});
 
   @override
@@ -14,16 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _page = 0;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-
-  final List<Widget> _pages = [
-    OrdersScreen(),
-    PostRequestScreen(),
-    MenuScreen(),
-    MenuScreen(),
-
-  ];
   @override
   void initState() {
     super.initState();
@@ -31,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _showWelcomeDialog();
     });
   }
+
   void _showWelcomeDialog() {
     showDialog(
       context: context,
@@ -38,28 +30,66 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Welcome'),
         content: Text(widget.welcomeMessage),
         actions: [
-          //
+          // You can add actions if needed
         ],
       ),
     );
   }
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  static List<Widget> _widgetOptions = <Widget>[
+    HomeScreenBody(),
+    OrdersScreen(),
+    PostRequestScreen(),
+    MenuScreen(),
+    MenuScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body:_widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: CurvedNavigationBar(
+        index: 0,
+        items: <Widget>[
+          Icon(Icons.home, size: 30, color: _selectedIndex == 0 ? Colors.white : Colors.black),
+          Icon(Icons.my_library_books, size: 30, color: _selectedIndex == 1 ? Colors.white : Colors.black),
+          Icon(Icons.add_circle, size: 30, color: _selectedIndex == 2 ? Colors.white : Colors.black),
+          Icon(Icons.history, size: 30, color: _selectedIndex == 3 ? Colors.white : Colors.black),
+          Icon(Icons.more_horiz_outlined, size: 30, color: _selectedIndex == 4 ? Colors.white : Colors.black),
+        ],
+        color: Colors.white,
+        buttonBackgroundColor: Color(0xFF22538D),
+        backgroundColor: Colors.white,
+        animationCurve: Curves.fastEaseInToSlowEaseOut,
+        animationDuration: Duration(milliseconds: 500),
+        onTap:_onItemTapped,
+      ),
+    );
+  }
+}
+
+class HomeScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-       backgroundColor:Color(0xFFFF3F5FD),
-
+      backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('CMS', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)),
-            // Uncomment and adjust if you want to add a subtitle
-            // Text('Care my service', style: TextStyle(color: Color(0xFF117D1C), fontSize: 8, fontWeight: FontWeight.bold)),
           ],
         ),
-         backgroundColor:Color(0xFF22538D),
+        backgroundColor: Color(0xFF22538D),
         elevation: 0,
         actions: [
           Row(
@@ -81,36 +111,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
-        ]
+        ],
       ),
-      body:
-
-      Stack(
-
+      body: Stack(
         children: [
           Column(
             children: [
               Container(
                 color: Color(0xFF22538D),
                 padding: EdgeInsets.all(8.0),
-                child: const Row(
+                child: Row(
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage('assets/profile.jpg'), // Update with the actual image path
+                      backgroundImage: AssetImage('assets/profile.jpg'),
                     ),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Elango Saravanan', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white)),
+                        Text('Elango Saravanan', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                         Text('Customer', style: TextStyle(fontSize: 16, color: Colors.white)),
                       ],
                     ),
-                    SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -134,9 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Positioned(
-            top: 100, // Adjust this value to position the search bar vertically
-            left: 8, // Adjust this value to position the search bar horizontally
-            right: 8, // Ensure to give some padding on the right
+            top: 100,
+            left: 8,
+            right: 8,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
@@ -153,51 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          _pages[_page],
         ],
-      ),
-
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: 0,
-        items: <Widget>[
-          Icon(
-            Icons.home,
-            size: 30,
-            color: _page == 0 ? Colors.white : Colors.black,
-          ),
-          Icon(
-            Icons.my_library_books,
-            size: 30,
-            color: _page == 1 ? Colors.white : Colors.black,
-          ),
-          Icon(
-            Icons.add_circle,
-            size: 30,
-            color: _page == 2 ? Colors.white : Colors.black,
-          ),
-          Icon(
-            Icons.history,
-            size: 30,
-            color: _page == 3 ? Colors.white : Colors.black,
-          ),
-          Icon(
-            Icons.more_horiz_outlined,
-            size: 30,
-            color: _page == 4 ? Colors.white : Colors.black,
-          ),
-        ],
-        color: Colors.white,
-        buttonBackgroundColor: Color(0xFF22538D),
-        backgroundColor: Color(0xFF22538D),
-        animationCurve: Curves.fastEaseInToSlowEaseOut,
-        animationDuration: Duration(milliseconds: 500),
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },
-        letIndexChange: (index) => true,
       ),
     );
   }
@@ -207,14 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         color: Colors.white,
-        // elevation: 5,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(10),
-        // ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 30, color: Colors.black), // You can customize the icon color here
+            Icon(icon, size: 30, color: Colors.black),
             SizedBox(height: 10),
             Text(
               label,

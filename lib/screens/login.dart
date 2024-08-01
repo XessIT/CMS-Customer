@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) => HomeScreen(
-                                            welcomeMessage: 'Welcome back to CMS, where your convenience is our commitment!',
+                                             welcomeMessage: 'Welcome back to CMS, where your convenience is our commitment!',
                                           ),
                                         ),
                                       );
