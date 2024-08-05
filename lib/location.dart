@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class MapScreen extends StatefulWidget {
@@ -8,12 +9,24 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late GoogleMapController mapController;
-
+  late GoogleMapController _mapController;
   final LatLng _center = const LatLng(45.521563, -122.677433);
 
+  @override
+  void initState() {
+    super.initState();
+    _requestLocationPermission();
+  }
+
+  void _requestLocationPermission() async {
+    final status = await Permission.location.status;
+    if (!status.isGranted) {
+      await Permission.location.request();
+    }
+  }
+
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    _mapController = controller;
   }
 
   @override
