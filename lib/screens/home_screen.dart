@@ -236,7 +236,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
+
+    //  backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

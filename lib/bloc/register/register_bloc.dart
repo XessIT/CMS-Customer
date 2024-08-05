@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:cms_customer/bloc/register/register_event.dart';
 import 'package:cms_customer/bloc/register/register_state.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterInitial()) {
@@ -28,11 +29,30 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     }
 
     try {
-      await Future.delayed(Duration(seconds: 2));
-      emit(RegisterSuccess());
-      // Add your actual registration logic here
+      final response = await http.post(
+        Uri.parse('http://localhost/CMSAPI/customer_registration.php'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'first_name': event.firstName,
+          'last_name': event.lastName,
+          'address': event.address,
+          'mobile': event.mobile,
+          'password': event.password,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && responseData['success']) {
+        emit(RegisterSuccess());
+      } else {
+        emit(RegisterFailure(error: responseData['error'] ?? 'Registration failed.'));
+      }
     } catch (error) {
       emit(RegisterFailure(error: error.toString()));
     }
   }
+
 }

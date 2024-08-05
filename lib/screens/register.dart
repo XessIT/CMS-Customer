@@ -1,15 +1,9 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../bloc/Register/Register_event.dart';
-import '../bloc/login/login_bloc.dart';
-import '../bloc/login/login_event.dart';
-import '../bloc/login/login_state.dart';
+import '../bloc/register/register_event.dart';
 import '../bloc/register/register_bloc.dart';
 import '../bloc/register/register_state.dart';
 import '../location.dart';
@@ -17,7 +11,7 @@ import 'home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
 
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -51,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     // Simulate OTP verification process
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
         isVerified = otpController.text == "123456"; // Replace this with your OTP verification logic
@@ -62,7 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
     // Future<void> _pickLocation() async {
     //   LatLng? location = await Navigator.push(
     //     context,
@@ -83,10 +76,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: const EdgeInsets.only(top: 70),
           child: Column(
             children: [
-              Align(
+            const Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     'Welcome Back !',
                     style: TextStyle(
@@ -97,14 +90,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     width: double.infinity,
                     height: screenHeight * 0.80, // Adjust height based on screen height
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -116,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(height: screenHeight * 0.05),
-                          Text('Sign Up', style: TextStyle(fontSize: 24,)),
+                          const Text('Sign Up', style: TextStyle(fontSize: 24,)),
 
                           SizedBox(
                             child: Column(
@@ -127,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: TextField(
                                     controller: firstNameController,
                                     textCapitalization: TextCapitalization.words ,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'First Name',
                                       border: OutlineInputBorder(),
                                       prefixIcon: Icon(Icons.person,color: Color(0xFF22538D),),
@@ -139,12 +132,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: TextField(
                                     controller: lastNameController,
                                     textCapitalization: TextCapitalization.words ,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Last Name',
                                       border: OutlineInputBorder(),
                                       prefixIcon: Icon(Icons.person,color: Color(0xFF22538D),),
                                     ),
-                                   // obscureText: true,
                                   ),
                                 ),
                                 Padding(
@@ -153,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     controller: addressController,
                                     maxLength: 200,
                                     //maxLines: 3,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Address',
                                       border: OutlineInputBorder(),
                                       prefixIcon: Icon(Icons.location_on,color: Color(0xFF22538D),),
@@ -174,12 +166,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
                                       labelText: 'Mobile Number',
-                                      border: OutlineInputBorder(),
+                                      border: const OutlineInputBorder(),
                                       prefixText: '+91 ',
-                                      prefixIcon: Icon(Icons.phone_android,color: Color(0xFF22538D),),
+                                      prefixIcon: const Icon(Icons.phone_android,color: Color(0xFF22538D),),
                                       suffixIcon: mobileController.text.length == 10
                                           ? TextButton(
-                                        child: Text('Send OTP', style: TextStyle(color: Color(0xFF22538D))),
+                                        child: const Text('Send OTP', style: TextStyle(color: Color(0xFF22538D))),
                                         onPressed: () {
 
                                         },
@@ -195,16 +187,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
                                       labelText: 'OTP',
-                                      border: OutlineInputBorder(),
-                                      prefixIcon: Icon(
+                                      border: const OutlineInputBorder(),
+                                      prefixIcon: const Icon(
                                         Icons.password,
                                         color: Color(0xFF22538D),
                                       ),
                                       suffixIcon: otpController.text.length == 6
                                           ? isLoading
                                               ? Container(
-                                                  padding: EdgeInsets.all(10),
-                                          child: CircularProgressIndicator())
+                                                  padding: const EdgeInsets.all(10),
+                                          child: const CircularProgressIndicator())
                                               : Icon(
                                             isVerified ? Icons.verified_user : Icons.cancel,
                                             color: isVerified ? Colors.green : Colors.red,
@@ -228,10 +220,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ],
                                     decoration: InputDecoration(
                                       labelText: 'Password',
-                                      border: OutlineInputBorder(),
-                                      prefixIcon: Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
+                                      border: const OutlineInputBorder(),
+                                      prefixIcon: const Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
                                       suffixIcon: IconButton(
-                                        icon: Icon(Icons.remove_red_eye, color: Color(0xFF22538D)),
+                                        icon: const Icon(Icons.remove_red_eye, color: Color(0xFF22538D)),
                                         onPressed: () {
                                           setState(() {
                                             _obscureText = !_obscureText;
@@ -252,10 +244,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ],
                                     decoration: InputDecoration(
                                         labelText: 'Confirm Password',
-                                        border: OutlineInputBorder(),
-                                        prefixIcon: Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
+                                        border: const OutlineInputBorder(),
+                                        prefixIcon: const Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
                                         suffixIcon: IconButton(
-                                          icon: Icon(Icons.remove_red_eye, color: Color(0xFF22538D)),
+                                          icon: const Icon(Icons.remove_red_eye, color: Color(0xFF22538D)),
                                           onPressed: () {
                                             setState(() {
                                               _obscureText = !_obscureText;
@@ -267,18 +259,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 SizedBox(height: screenHeight * 0.05),
-                                BlocConsumer<RegisterBloc,RegisterState>(
+                                BlocConsumer<RegisterBloc, RegisterState>(
                                   listener: (context, state) {
                                     if (state is RegisterFailure) {
                                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
                                     } else if (state is RegisterSuccess) {
                                       // Navigate to home screen
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen(welcomeMessage: 'Welcome to CMS, where your convenience is our commitment!')));
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                        builder: (context) => HomeScreen(welcomeMessage: 'Welcome to CMS, where your convenience is our commitment!'),
+                                      ));
                                     }
                                   },
                                   builder: (context, state) {
                                     if (state is RegisterLoading) {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     }
 
                                     return Column(
@@ -296,27 +290,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             width: double.infinity,
                                             height: 50,
                                             child: MaterialButton(
-                                              color: Color(0xFF22538D),
+                                              color: const Color(0xFF22538D),
                                               onPressed: () {
-                                                // BlocProvider.of<RegisterBloc>(context).add(
-                                                //   RegisterButtonPressed(
-                                                //     firstName: firstNameController.text,
-                                                //     lastName: lastNameController.text,
-                                                //     address: addressController.text,
-                                                //     mobile: mobileController.text,
-                                                //     otp: otpController.text,
-                                                //     password: passwordController.text,
-                                                //   ),
-                                                // );
+                                                BlocProvider.of<RegisterBloc>(context).add(
+                                                  RegisterButtonPressed(
+                                                    firstName: firstNameController.text,
+                                                    lastName: lastNameController.text,
+                                                    address: addressController.text,
+                                                    mobile: mobileController.text,
+                                                    otp: otpController.text,
+                                                    password: passwordController.text,
+                                                  ),
+                                                );
                                               },
-                                              child: Text('REGISTER', style: TextStyle(color: Colors.white, fontSize: 18)),
+                                              child: const Text('REGISTER', style: TextStyle(color: Colors.white, fontSize: 18)),
                                             ),
                                           ),
                                         ),
                                       ],
                                     );
                                   },
-                                ),
+                                )
+
                               ],
                             ),
                           ),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme/theme.dart';
+import '../theme/theme_notifier.dart';
 
 class MenuScreen extends StatelessWidget {
   final List<MenuItem> menuItems = [
@@ -54,9 +58,43 @@ class MenuItemTile extends StatelessWidget {
         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
         tileColor: Colors.white,
         onTap: () {
+          if (menuItem.icon == Icons.palette) {
+           // _showThemeDialog(context);
+          }
           // Handle menu item tap
         },
       ),
+    );
+  }
+  void _showThemeDialog(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Choose Theme'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Dark Blue'),
+                onTap: () {
+                  themeNotifier.setTheme(AppThemes.darkTheme);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: Text('Light Orange'),
+                onTap: () {
+                  themeNotifier.setTheme(AppThemes.lightTheme);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
