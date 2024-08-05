@@ -1,8 +1,7 @@
 import 'package:cms_customer/screens/register.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/login/login_bloc.dart';
 import '../bloc/login/login_event.dart';
 import '../bloc/login/login_state.dart';
@@ -11,6 +10,8 @@ import 'home_screen.dart';
 class LoginScreen extends StatelessWidget {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +25,10 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.only(top: 70),
           child: Column(
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     'Welcome Back !',
                     style: TextStyle(
@@ -38,14 +39,14 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     width: double.infinity,
                     height: screenHeight * 0.80, // Adjust height based on screen height
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -57,30 +58,43 @@ class LoginScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(height: screenHeight * 0.10),
-                          Text('Login', style: TextStyle(fontSize: 24,)),
+                          const Text('Login', style: TextStyle(fontSize: 24,)),
                           SizedBox(
                             child: Column(
                               children: [
                                 SizedBox(height: screenHeight * 0.10),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   child: TextField(
                                     controller: mobileController,
-                                    decoration: InputDecoration(
+                                    keyboardType: TextInputType.phone,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
+                                    decoration: const InputDecoration(
                                       labelText: 'Mobile',
                                       border: OutlineInputBorder(),
                                       prefixIcon: Icon(Icons.phone_android,color: Color(0xFF22538D),),
+                                      prefixText: '+91 ',
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   child: TextField(
                                     controller: passwordController,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter( RegExp(r'[a-zA-Z0-9]'), allow: true),
+                                      LengthLimitingTextInputFormatter(20),
+                                    ],
                                     decoration: InputDecoration(
                                       labelText: 'Password',
-                                      border: OutlineInputBorder(),
-                                      prefixIcon: Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
+                                      border: const OutlineInputBorder(),
+                                      prefixIcon: const Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
+                                      suffixIcon: IconButton(
+                                        icon: const Icon(Icons.remove_red_eye),
+                                        onPressed: () {},
+                                      )
                                     ),
                                     obscureText: true,
                                   ),
@@ -88,12 +102,12 @@ class LoginScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text('Forget my password?'),
+                                    const Text('Forget my password?'),
                                     TextButton(
                                       onPressed: () {
                                         // Navigate to registration screen
                                       },
-                                      child: Text('Click Here', style: TextStyle(color: Colors.blue)),
+                                      child: const Text('Click Here', style: TextStyle(color: Colors.blue)),
                                     ),
                                   ],
                                 ),
@@ -119,18 +133,18 @@ class LoginScreen extends StatelessWidget {
                                   },
                                   builder: (context, state) {
                                     if (state is LoginLoading) {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     }
 
                                     return Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                           child: SizedBox(
                                             width: double.infinity,
                                             height: 50,
                                             child: MaterialButton(
-                                              color: Color(0xFF22538D),
+                                              color: const Color(0xFF22538D),
                                               onPressed: () {
                                                 BlocProvider.of<LoginBloc>(context).add(
                                                   LoginButtonPressed(
@@ -139,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                                                   ),
                                                 );
                                               },
-                                              child: Text('LOGIN', style: TextStyle(color: Colors.white, fontSize: 18)),
+                                              child: const Text('LOGIN', style: TextStyle(color: Colors.white, fontSize: 18)),
                                             ),
                                           ),
                                         ),
@@ -147,12 +161,12 @@ class LoginScreen extends StatelessWidget {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text('Don\'t have an account?'),
+                                            const Text('Don\'t have an account?'),
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
                                               },
-                                              child: Text('Register Here', style: TextStyle(color: Colors.blue)),
+                                              child: const Text('Register Here', style: TextStyle(color: Colors.blue)),
                                             ),
                                           ],
                                         ),

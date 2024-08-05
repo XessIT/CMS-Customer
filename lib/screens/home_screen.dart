@@ -1,9 +1,15 @@
 import 'package:cms_customer/screens/post.dart';
+import 'package:cms_customer/screens/profile.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:image_picker/image_picker.dart';
 
+import 'categories.dart';
+import 'history.dart';
 import 'menu.dart';
 import 'mypost.dart';
+import 'notification.dart';
 
 class HomeScreen extends StatefulWidget {
   final String welcomeMessage;
@@ -35,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -46,15 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreenBody(),
     OrdersScreen(),
-    PostRequestScreen(),
-    MenuScreen(),
+    Categories(),
+    History(),
     MenuScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:_widgetOptions.elementAt(_selectedIndex),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: CurvedNavigationBar(
         index: 0,
         items: <Widget>[
@@ -69,28 +76,186 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         animationCurve: Curves.fastEaseInToSlowEaseOut,
         animationDuration: Duration(milliseconds: 500),
-        onTap:_onItemTapped,
+        onTap: _onItemTapped,
       ),
     );
   }
 }
 
-class HomeScreenBody extends StatelessWidget {
+class HomeScreenBody extends StatefulWidget {
+  @override
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+}
+
+class _HomeScreenBodyState extends State<HomeScreenBody> {
+  final ImagePicker _picker = ImagePicker();
+
+  String imagePath = 'assets/profilepic.jpg';
+
+  void _showImageViewer(BuildContext context, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Stack(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: PhotoView(
+                imageProvider: AssetImage(imagePath),
+                backgroundDecoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // Positioned(
+            //   top: 10,
+            //   right: 10,
+            //   child: Row(
+            //     children: [
+            //       IconButton(
+            //         icon: Icon(Icons.edit),
+            //         color: Colors.white,
+            //         onPressed: () async {
+            //           final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+            //           if (pickedFile != null) {
+            //             // Replace this with your state management logic
+            //             // For example, if you're using a state management solution, update the state accordingly
+            //             Navigator.of(context).pop();
+            //             _showImageViewer(context, pickedFile.path);
+            //           }
+            //         },
+            //       ),
+            //       IconButton(
+            //         icon: Icon(Icons.delete),
+            //         color: Colors.white,
+            //         onPressed: () {
+            //           // Replace this with your state management logic
+            //           // For example, if you're using a state management solution, update the state accordingly
+            //           Navigator.of(context).pop();
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildCategoryItem(BuildContext context, IconData icon, String label) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          if (label == 'More') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Categories(),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostRequestScreen(
+                  category: {'icon': icon, 'label': label},
+                ),
+              ),
+            );
+          }
+        },
+        child: Card(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 30, color: Colors.blue),
+              SizedBox(height: 10),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    label,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  late List<Map<String, dynamic>> _filteredCategories;
+  final TextEditingController _searchController = TextEditingController();
+  final List<Map<String, dynamic>> _categories = [
+    {'icon': Icons.cleaning_services_outlined, 'label': 'Cleaning'},
+    {'icon': Icons.build_circle_outlined, 'label': 'Repairing'},
+    {'icon': Icons.electrical_services_outlined, 'label': 'Electrician'},
+    {'icon': Icons.chair_outlined, 'label': 'Carpenter'},
+    {'icon': Icons.filter_tilt_shift_outlined, 'label': 'Fitting'},
+    {'icon': Icons.emoji_transportation_outlined, 'label': 'Transport'},
+    {'icon': Icons.add_home_work_outlined, 'label': 'Construction'},
+    {'icon': Icons.engineering_outlined, 'label': 'Mechanic'},
+    {'icon': Icons.more_vert_outlined, 'label': 'More'},
+
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredCategories = List.from(_categories);
+    _searchController.addListener(_filterCategories);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterCategories);
+    _searchController.dispose();
+    super.dispose();
+  }
+  void _filterCategories() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredCategories = _categories
+          .where((category) =>
+          category['label'].toString().toLowerCase().contains(query))
+          .toList();
+      // Ensure "More" category is included if no matching categories are found
+      if (_filteredCategories.isEmpty) {
+        _filteredCategories = List.from(_categories.where((category) => category['label'] == 'More'));
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
+
+    //  backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('CMS', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)),
+            Text(
+              'CMS',
+              style: TextStyle(
+                color: Color(0xFFF117D1C),
+                // color: Colors.white,
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
-        backgroundColor: Color(0xFF22538D),
+        backgroundColor: Color(0xFFFFD188),
         elevation: 0,
+        toolbarHeight: 80.0, // Increase the height of the AppBar
         actions: [
           Row(
             children: [
@@ -98,7 +263,12 @@ class HomeScreenBody extends StatelessWidget {
                 backgroundColor: Colors.white,
                 child: IconButton(
                   icon: Icon(Icons.notifications_active_outlined, color: Colors.black),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NotificationPage()),
+                    );
+                  },
                 ),
               ),
               Padding(
@@ -107,7 +277,12 @@ class HomeScreenBody extends StatelessWidget {
                   backgroundColor: Colors.white,
                   child: IconButton(
                     icon: Icon(Icons.person_outline_outlined, color: Colors.black),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Profile()),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -120,40 +295,53 @@ class HomeScreenBody extends StatelessWidget {
           Column(
             children: [
               Container(
-                color: Color(0xFF22538D),
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage('assets/profile.jpg'),
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Elango Saravanan', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-                        Text('Customer', style: TextStyle(fontSize: 16, color: Colors.white)),
-                      ],
-                    ),
-                  ],
+                //height: screenHeight * 0.10,
+                color: Color(0xFFFFD188),
+                padding: EdgeInsets.only(
+                  top: screenHeight * 0.02,
+                  left: 20,
+                  right: 10,
+                  bottom: screenHeight * 0.05,
+                ),
+                child: SizedBox(
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _showImageViewer(context, 'assets/profilepic.jpg');
+                        },
+                        child: Container(
+                          width: 60, // Adjust the width as needed
+                          height: 60, // Adjust the height as needed
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8), // Adjust the corner radius if needed, or set it to 0 for sharp edges
+                            image: DecorationImage(
+                              image: AssetImage('assets/profilepic.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Elango Saravanan', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+                          Text('Customer', style: TextStyle(fontSize: 16, color: Color(0xFFF117D1C),)),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: screenHeight * 0.10),
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 3,
-                  children: [
-                    buildCategoryItem(Icons.cleaning_services_outlined, 'Cleaning'),
-                    buildCategoryItem(Icons.build_circle_outlined, 'Repairing'),
-                    buildCategoryItem(Icons.electrical_services_outlined, 'Electrician'),
-                    buildCategoryItem(Icons.chair_outlined, 'Carpenter'),
-                    buildCategoryItem(Icons.filter_tilt_shift_outlined, 'Fitting'),
-                    buildCategoryItem(Icons.emoji_transportation_outlined, 'Transport'),
-                    buildCategoryItem(Icons.add_home_work_outlined, 'Construction'),
-                    buildCategoryItem(Icons.engineering_outlined, 'Mechanic'),
-                    buildCategoryItem(Icons.format_paint_outlined, 'Painting'),
-                  ],
+                  children: _filteredCategories.map((category) {
+                    return buildCategoryItem(context,category['icon'], category['label']);
+                  }).toList(),
                 ),
               ),
             ],
@@ -165,13 +353,14 @@ class HomeScreenBody extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
+                controller: _searchController,
                 decoration: InputDecoration(
+                  hintText: 'Search for services',
+                  prefixIcon: Icon(Icons.search),
                   filled: true,
                   fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'Find a service',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
                 ),
@@ -179,26 +368,6 @@ class HomeScreenBody extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget buildCategoryItem(IconData icon, String label) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 30, color: Colors.black),
-            SizedBox(height: 10),
-            Text(
-              label,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
       ),
     );
   }
