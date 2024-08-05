@@ -1,47 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
-class LocationPicker extends StatefulWidget {
+
+class MapScreen extends StatefulWidget {
   @override
-  _LocationPickerState createState() => _LocationPickerState();
+  _MapScreenState createState() => _MapScreenState();
 }
 
-class _LocationPickerState extends State<LocationPicker> {
-  LatLng? _selectedLocation;
-  GoogleMapController? _mapController;
+class _MapScreenState extends State<MapScreen> {
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
 
   void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-  }
-
-  void _onCameraMove(CameraPosition position) {
-    _selectedLocation = position.target;
-  }
-
-  void _onConfirmLocation() {
-    Navigator.pop(context, _selectedLocation);
+    mapController = controller;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Location'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: _onConfirmLocation,
-          ),
-        ],
+        title: Text('Google Maps in Flutter'),
       ),
       body: GoogleMap(
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
-          target: LatLng(37.7749, -122.4194), // Initial position, change as needed
-          zoom: 14.0,
+          target: _center,
+          zoom: 11.0,
         ),
-        onCameraMove: _onCameraMove,
       ),
     );
   }

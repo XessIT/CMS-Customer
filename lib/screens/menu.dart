@@ -4,6 +4,7 @@ class MenuScreen extends StatelessWidget {
   final List<MenuItem> menuItems = [
     MenuItem(icon: Icons.person, title: 'My Profile'),
     MenuItem(icon: Icons.contact_mail, title: 'Contact us'),
+    MenuItem(icon: Icons.phonelink_lock, title: 'Change password'),
     MenuItem(icon: Icons.palette, title: 'Theme'),
     MenuItem(icon: Icons.share, title: 'Share'),
     MenuItem(icon: Icons.star_rate, title: 'Rate'),
@@ -16,9 +17,10 @@ class MenuScreen extends StatelessWidget {
       backgroundColor: Color(0xFFFF3F5FD),
 
       appBar: AppBar(
-        backgroundColor: Color(0xFF22538D),
+        //backgroundColor: Color(0xFF22538D),
+        backgroundColor: Color(0xFFFFD188),
 
-        title: Text('Menu', style: TextStyle(color: Colors.white)),
+        title: Text('Menu', style: TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
         itemCount: menuItems.length,

@@ -1,6 +1,7 @@
 import 'package:cms_customer/screens/register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/login/login_bloc.dart';
@@ -63,24 +64,37 @@ class LoginScreen extends StatelessWidget {
                               children: [
                                 SizedBox(height: screenHeight * 0.10),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   child: TextField(
                                     controller: mobileController,
+                                    keyboardType: TextInputType.phone,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
                                     decoration: InputDecoration(
                                       labelText: 'Mobile',
                                       border: OutlineInputBorder(),
                                       prefixIcon: Icon(Icons.phone_android,color: Color(0xFF22538D),),
+                                      prefixText: '+91 ',
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   child: TextField(
                                     controller: passwordController,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter( RegExp(r'[a-zA-Z0-9]'), allow: true),
+                                      LengthLimitingTextInputFormatter(20),
+                                    ],
                                     decoration: InputDecoration(
                                       labelText: 'Password',
                                       border: OutlineInputBorder(),
                                       prefixIcon: Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(Icons.remove_red_eye),
+                                        onPressed: () {},
+                                      )
                                     ),
                                     obscureText: true,
                                   ),
@@ -125,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                                     return Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                           child: SizedBox(
                                             width: double.infinity,
                                             height: 50,

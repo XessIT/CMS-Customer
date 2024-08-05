@@ -13,12 +13,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
       child: Scaffold(
         backgroundColor: Color(0xFFFF3F5FD),
         appBar: AppBar(
-          backgroundColor: Color(0xFF22538D),
-          title: Text('Orders',style: TextStyle(color: Colors.white) ,),
+         // backgroundColor: Color(0xFF22538D),
+          backgroundColor: Color(0xFFFFD188),
+          title: Text('Orders',style: TextStyle(color: Colors.black) ,),
           bottom: TabBar(
-            indicatorColor: Colors.white,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.black,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.black,
             tabs: [
               Tab(text: 'Post',),
               Tab(text: 'Requests'),
@@ -82,21 +83,31 @@ class _RequestsTabState extends State<RequestsTab> {
           Card(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: AssetImage('assets/profile.jpg'),
+                      Column(
+                        children: [
+                          const CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.white,
+                            backgroundImage: AssetImage('assets/profilepic.jpg'),
+                          ),
+                          SizedBox(height: 8),
+                          Text('S.Elango', style: TextStyle(fontWeight: FontWeight.bold),),
+                        ],
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 15),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('S.Elango\n Cleaner', style: TextStyle(fontSize: 16)),
+                          Text('Cleaner', ),
+                          Text('Anthiyur - Erode(dt)',),
+                          Text('Requested on 12/05/2023',),
+                          Text('Requeste Amount: 500',),
                         ],
                       ),
                       Spacer(),
@@ -104,14 +115,55 @@ class _RequestsTabState extends State<RequestsTab> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              // Add your cancel button logic here
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Confirm'),
+                                  content: Text('Are you sure you want to cancel the request?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Add your accept button logic here
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Yes'),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                             icon: Icon(Icons.cancel_outlined, color: Colors.red),
                           ),
                           IconButton(
                             onPressed: () {
-                              // Add your accept button logic here
-                            },
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Confirm'),
+                                  content: Text('Are you sure you want to accept the request?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Add your accept button logic here
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Accept'),
+                                    ),
+                                  ],
+                                ),
+                              );                            },
                             icon: Icon(Icons.check_circle_outline, color: Colors.green),
                           ),
                         ],

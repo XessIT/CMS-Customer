@@ -1,14 +1,14 @@
 import 'package:cms_customer/screens/post.dart';
 import 'package:flutter/material.dart';
 
-class History extends StatefulWidget {
-  const History({super.key});
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({super.key});
 
   @override
-  State<History> createState() => _HistoryState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _HistoryState extends State<History> {
+class _NotificationPageState extends State<NotificationPage> {
   final TextEditingController _searchController = TextEditingController();
 
 
@@ -39,37 +39,36 @@ class _HistoryState extends State<History> {
     return Scaffold(
       backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
-        backgroundColor:Color(0xFFFFD188),
-        //backgroundColor: Color(0xFF22538D),
-        title: Text('History', style: TextStyle(color: Colors.black)),
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
+        backgroundColor: Color(0xFF22538D),
+        title: Text('Notification', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
         child: Column(
           children: [
-            SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'Find your history',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(height: 16),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            //   child: TextField(
+            //     controller: _searchController,
+            //     decoration: InputDecoration(
+            //       filled: true,
+            //       fillColor: Colors.white,
+            //       prefixIcon: Icon(Icons.search),
+            //       hintText: 'Find your history',
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(8.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Card(
