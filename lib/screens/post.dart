@@ -74,59 +74,64 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
                 CategoryTile(icon: widget.category['icon'], title: widget.category['label']),
               ],
             ),
-            SizedBox(height: 16),
-            DropdownButton<String>(
-              value: _selectedSubCategory,
-              items: _subCategories.map((String subCategory) {
-                return DropdownMenuItem<String>(
-                  value: subCategory,
-                  child: Text(subCategory,style: Theme.of(context).textTheme.bodyMedium,),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedSubCategory = newValue;
-                });
-              },
-              hint: Text('Select Sub Category',style: Theme.of(context).textTheme.bodyMedium),
-              isExpanded: true,
+            if(widget.category['label']!="Others")
+            Column(
+               children: [
+                 SizedBox(height: 16),
+                 DropdownButton<String>(
+                   value: _selectedSubCategory,
+                   items: _subCategories.map((String subCategory) {
+                     return DropdownMenuItem<String>(
+                       value: subCategory,
+                       child: Text(subCategory,style: Theme.of(context).textTheme.bodyMedium,),
+                     );
+                   }).toList(),
+                   onChanged: (String? newValue) {
+                     setState(() {
+                       _selectedSubCategory = newValue;
+                     });
+                   },
+                   hint: Text('Select Sub Category',style: Theme.of(context).textTheme.bodyMedium),
+                   isExpanded: true,
+                 ),
+                 SizedBox(height: 16),
+                 DropdownButton<String>(
+                   value: _selectedPostType,
+                   items: _postTypes.map((String postType) {
+                     return DropdownMenuItem<String>(
+                       value: postType,
+                       child: Text(postType,style: Theme.of(context).textTheme.bodyMedium,),
+                     );
+                   }).toList(),
+                   onChanged: (String? newValue) {
+                     setState(() {
+                       _selectedPostType = newValue;
+                     });
+                   },
+                   hint: Text('Select Post Type',style: Theme.of(context).textTheme.bodyMedium),
+                   isExpanded: true,
+                 ),
+                 SizedBox(height: 16),
+                 if (_selectedPostType == 'Private')
+                   DropdownButton<Engineer>(
+                     value: _selectedEngineer,
+                     items: _engineers.map((Engineer engineer) {
+                       return DropdownMenuItem<Engineer>(
+                         value: engineer,
+                         child: EngineerDropdownItem(engineer: engineer),
+                       );
+                     }).toList(),
+                     onChanged: (Engineer? newValue) {
+                       setState(() {
+                         _selectedEngineer = newValue;
+                       });
+                     },
+                     hint: Text('Select Engineer',style: Theme.of(context).textTheme.bodyMedium),
+                     isExpanded: true,
+                   ),
+                 SizedBox(height: 16),
+               ],
             ),
-            SizedBox(height: 16),
-            DropdownButton<String>(
-              value: _selectedPostType,
-              items: _postTypes.map((String postType) {
-                return DropdownMenuItem<String>(
-                  value: postType,
-                  child: Text(postType,style: Theme.of(context).textTheme.bodyMedium,),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedPostType = newValue;
-                });
-              },
-              hint: Text('Select Post Type',style: Theme.of(context).textTheme.bodyMedium),
-              isExpanded: true,
-            ),
-            SizedBox(height: 16),
-            if (_selectedPostType == 'Private')
-              DropdownButton<Engineer>(
-                value: _selectedEngineer,
-                items: _engineers.map((Engineer engineer) {
-                  return DropdownMenuItem<Engineer>(
-                    value: engineer,
-                    child: EngineerDropdownItem(engineer: engineer),
-                  );
-                }).toList(),
-                onChanged: (Engineer? newValue) {
-                  setState(() {
-                    _selectedEngineer = newValue;
-                  });
-                },
-                hint: Text('Select Engineer',style: Theme.of(context).textTheme.bodyMedium),
-                isExpanded: true,
-              ),
-            SizedBox(height: 16),
             if (_details == null && _imagePaths!.isEmpty)
               AddItemButton(
                 icon: Icons.details,

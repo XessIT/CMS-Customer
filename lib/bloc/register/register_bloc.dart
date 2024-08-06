@@ -4,7 +4,7 @@ import 'package:cms_customer/bloc/register/register_state.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+class  RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterInitial()) {
     on<RegisterButtonPressed>(_onRegisterButtonPressed);
   }

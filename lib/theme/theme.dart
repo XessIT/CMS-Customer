@@ -87,11 +87,15 @@ class AppThemes {
       unselectedLabelStyle: TextStyle(color: Colors.white),
       selectedIconTheme: IconThemeData(color: Colors.red),
     ),
-
     tabBarTheme: TabBarTheme(
       labelColor: Colors.black,
       unselectedLabelColor: Colors.black54,
     ),
+      iconTheme: const IconThemeData(
+          color: Colors.blue,
+          size: 30
+      ),
+
     // elevatedButtonTheme: ElevatedButtonThemeData(
     //   style: CustomButtonTheme.primaryButtonStyle(),
     // ),
@@ -186,7 +190,10 @@ class AppThemes {
       labelColor: Colors.white,
       unselectedLabelColor: Colors.white54,
     ),
-
+    iconTheme: const IconThemeData(
+      color: Colors.blue,
+      size: 30
+    )
     // elevatedButtonTheme: ElevatedButtonThemeData(
     //   style: CustomButtonTheme.primaryButtonStyle(),
     // ),

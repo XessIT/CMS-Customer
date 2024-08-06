@@ -302,7 +302,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               CircleAvatar(
                 backgroundColor: Colors.white,
                 child: IconButton(
-                  icon: Icon(Icons.notifications_active_outlined, color: Colors.black),
+                  icon: Icon(Icons.notifications_active_outlined, color: Colors.black,size: 25,),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -316,7 +316,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   child: IconButton(
-                    icon: Icon(Icons.person_outline_outlined, color: Colors.black),
+                    icon: Icon(Icons.person_outline_outlined, color: Colors.black,size: 25),
                     onPressed: () {
                       Navigator.push(
                         context,
