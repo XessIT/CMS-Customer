@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cms_customer/bloc/register/register_event.dart';
 import 'package:cms_customer/bloc/register/register_state.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../../repository/register_repo.dart'; // Adjust the import path as needed
 
 class  RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterInitial()) {
@@ -34,30 +33,26 @@ class  RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     }
 
     try {
-      final response = await http.post(
-        Uri.parse('http://localhost/CMSAPI/customer_registration.php'),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({
-          'first_name': event.firstName,
-          'last_name': event.lastName,
-          'address': event.address,
-          'mobile': event.mobile,
-          'password': event.password,
-        }),
+      // Call the repository function
+      final result = await RegisterRepo.registerUser(
+        event.firstName,
+        event.lastName,
+        event.address,
+        event.mobile,
+        event.password,
       );
 
-      final responseData = jsonDecode(response.body);
-
-      if (response.statusCode == 200 && responseData['success']) {
+      // Check for success key and handle accordingly
+      if (result['status'] == 'success') {
+        // Retrieve the token and print it
+        final token = result['token'];
+        print('Access Token: $token');
         emit(RegisterSuccess());
       } else {
-        emit(RegisterFailure(error: responseData['error'] ?? 'Registration failed.'));
+        emit(RegisterFailure(error: result['message'] ?? 'Registration failed'));
       }
     } catch (error) {
       emit(RegisterFailure(error: error.toString()));
     }
   }
-
 }

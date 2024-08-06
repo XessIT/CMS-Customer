@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import '../../repository/login_repo.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -23,18 +24,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
 
     try {
-      await Future.delayed(Duration(seconds: 2));
+      final result = await LoginRepo.loginUser(
+        event.mobile,
+        event.password,
+      );
 
-      // Replace this with actual login validation
-      if (event.mobile != '123') {
-        emit(LoginFailure(error: 'Invalid Mobile Number'));
-      } else if (event.password != 'p') {
-        emit(LoginFailure(error: 'Invalid Password'));
-      } else {
+      // Check for success key and handle accordingly
+      if (result['status'] == 'success') {
+        // Retrieve the token and print it
+        final token = result['token'];
+        print('Access Token: $token');
         emit(LoginSuccess());
+      } else {
+        emit(LoginFailure(error: result['message']));
       }
     } catch (error) {
       emit(LoginFailure(error: error.toString()));
     }
   }
+
 }
