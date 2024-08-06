@@ -111,6 +111,7 @@ class _CategoriesState extends State<Categories> {
     {'icon': Icons.local_florist_outlined, 'label': 'Garden Design'},
     {'icon': Icons.outdoor_grill_outlined, 'label': 'Outdoor Kitchen Installation'},
     {'icon': Icons.fireplace_outlined, 'label': 'Fire Pit Installation'},
+    {'icon': Icons.account_tree_outlined, 'label': 'Others'},
   ];
 
   late List<Map<String, dynamic>> _filteredCategories;
@@ -136,6 +137,9 @@ class _CategoriesState extends State<Categories> {
           .where((category) =>
           category['label'].toString().toLowerCase().contains(query))
           .toList();
+      if (_filteredCategories.isEmpty) {
+        _filteredCategories = List.from(_categories.where((category) => category['label'] == 'Others'));
+      }
     });
   }
 
@@ -158,7 +162,7 @@ class _CategoriesState extends State<Categories> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 30, color: Colors.blue),
+              Icon(icon),
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),

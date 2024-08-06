@@ -3,7 +3,7 @@ import 'package:cms_customer/bloc/register/register_event.dart';
 import 'package:cms_customer/bloc/register/register_state.dart';
 import '../../repository/register_repo.dart'; // Adjust the import path as needed
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+class  RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterInitial()) {
     on<RegisterButtonPressed>(_onRegisterButtonPressed);
   }

@@ -7,11 +7,18 @@ import '../bloc/login/login_event.dart';
 import '../bloc/login/login_state.dart';
 import 'home_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController mobileController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class LoginScreen extends StatefulWidget {
 
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController mobileController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

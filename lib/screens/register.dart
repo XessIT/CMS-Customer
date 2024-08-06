@@ -69,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // }
 
     return Scaffold(
+      backgroundColor: const Color(0xFF22538D), // Corrected color format
       body: BlocProvider(
         create: (context) => RegisterBloc(),
         child: Padding(
@@ -95,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     width: double.infinity,
-                    height: screenHeight * 0.80, // Adjust height based on screen height
+                    height: screenHeight * 0.90, // Adjust height based on screen height
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -261,7 +262,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 BlocConsumer<RegisterBloc, RegisterState>(
                                   listener: (context, state) {
                                     if (state is RegisterFailure) {
-                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error), backgroundColor: Colors.red,));
                                     } else if (state is RegisterSuccess) {
                                       // Navigate to home screen
                                       Navigator.of(context).pushReplacement(MaterialPageRoute(
