@@ -77,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     keyboardType: TextInputType.phone,
                                     inputFormatters: [
                                       LengthLimitingTextInputFormatter(10),
+                                      FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true),
                                     ],
                                     decoration: const InputDecoration(
                                       labelText: 'Mobile',

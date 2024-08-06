@@ -28,6 +28,11 @@ class  RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       return;
     }
 
+    if (event.password != event.confirmPassword) {
+      emit(RegisterFailure(error: 'Password does not match'));
+      return;
+    }
+
     try {
       final response = await http.post(
         Uri.parse('http://localhost/CMSAPI/customer_registration.php'),
