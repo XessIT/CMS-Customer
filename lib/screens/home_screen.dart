@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../repository/login_repo.dart';
 import 'categories.dart';
 import 'history.dart';
 import 'menu.dart';
@@ -207,6 +208,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   @override
   void initState() {
     super.initState();
+    _loadToken();
     _filteredCategories = List.from(_categories);
     _searchController.addListener(_filterCategories);
   }
@@ -230,6 +232,14 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
       }
     });
   }
+  String _token = 'No token found';
+  Future<void> _loadToken() async {
+    final token = await LoginRepo.getToken();
+    setState(() {
+      _token = token ?? 'No token found';
+    });
+    print('Stored Token: $_token'); // Print the token
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +249,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
     //  backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
-        title: Column(
+        title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
