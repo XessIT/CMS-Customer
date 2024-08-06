@@ -11,15 +11,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Color(0xFFFF3F5FD),
         appBar: AppBar(
          // backgroundColor: Color(0xFF22538D),
-          backgroundColor: Color(0xFFFFD188),
-          title: Text('Orders',style: TextStyle(color: Colors.black) ,),
+          title: Text('Orders'),
           bottom: TabBar(
-            indicatorColor: Colors.black,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.black,
             tabs: [
               Tab(text: 'Post',),
               Tab(text: 'Requests'),
@@ -89,9 +84,9 @@ class _RequestsTabState extends State<RequestsTab> {
                 children: [
                   Row(
                     children: [
-                      Column(
+                      const Column(
                         children: [
-                          const CircleAvatar(
+                          CircleAvatar(
                             radius: 35,
                             backgroundColor: Colors.white,
                             backgroundImage: AssetImage('assets/profilepic.jpg'),
@@ -101,7 +96,7 @@ class _RequestsTabState extends State<RequestsTab> {
                         ],
                       ),
                       SizedBox(width: 15),
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Cleaner', ),

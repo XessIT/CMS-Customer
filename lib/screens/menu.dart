@@ -1,8 +1,15 @@
+import 'package:cms_customer/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../theme/theme.dart';
 import '../theme/theme_notifier.dart';
+import 'change_pin.dart';
+import 'feedback.dart';
+import 'login.dart';
 
 class MenuScreen extends StatelessWidget {
   final List<MenuItem> menuItems = [
@@ -18,13 +25,8 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
-
       appBar: AppBar(
-        //backgroundColor: Color(0xFF22538D),
-        backgroundColor: Color(0xFFFFD188),
-
-        title: Text('Menu', style: TextStyle(color: Colors.black)),
+        title: Text('Menu'),
       ),
       body: ListView.builder(
         itemCount: menuItems.length,
@@ -58,8 +60,29 @@ class MenuItemTile extends StatelessWidget {
         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
         tileColor: Colors.white,
         onTap: () {
+          if (menuItem.icon == Icons.person) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Profile()),
+            );
+          }
           if (menuItem.icon == Icons.palette) {
-           // _showThemeDialog(context);
+            _showThemeDialog(context);
+          }if (menuItem.icon == Icons.logout) {
+            _showLoginDialog(context);
+          }if (menuItem.icon == Icons.star_rate) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RatingScreen()),
+            );
+          }if (menuItem.icon == Icons.phonelink_lock) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChangeMPin()),
+            );
+          }
+          else if (menuItem.icon == Icons.share) {
+            _shareAppLink();
           }
           // Handle menu item tap
         },
@@ -78,14 +101,14 @@ class MenuItemTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: Text('Dark Blue'),
+                title: Text('Dark'),
                 onTap: () {
                   themeNotifier.setTheme(AppThemes.darkTheme);
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                title: Text('Light Orange'),
+                title: Text('Light'),
                 onTap: () {
                   themeNotifier.setTheme(AppThemes.lightTheme);
                   Navigator.of(context).pop();
@@ -96,5 +119,58 @@ class MenuItemTile extends StatelessWidget {
         );
       },
     );
+  }
+  void _showLoginDialog(BuildContext context) {
+
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.noHeader,
+      width: 350,
+      body: StatefulBuilder(
+        builder: (context, setState) {
+          return Container(
+              padding: EdgeInsets.all(20),
+              child: Text("Are you sure want to Log out",style: Theme.of(context).textTheme.bodySmall,));
+        },
+      ),
+      btnOk: ElevatedButton(
+        onPressed: () async {
+          // SharedPreferences prefs =
+          // await SharedPreferences.getInstance();
+          // await prefs.setBool('isLoggedIn', false);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+          // Handle OK button press
+        },
+        style: ButtonStyle(
+          backgroundColor:
+          MaterialStateProperty.all<Color>(Colors.green),
+        ),
+        child: const Text(
+          'Yes',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      btnCancel: ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop(); // Close the dialog
+        },
+        style: ButtonStyle(
+          backgroundColor:
+          MaterialStateProperty.all<Color>(Colors.red),
+        ),
+        child: Text(
+          'No',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    ).show();
+  }
+  void _shareAppLink() {
+    final String appLink = 'https://yourappurl.com'; // Replace with your app's link
+    Share.share('Check out this app: $appLink');
   }
 }

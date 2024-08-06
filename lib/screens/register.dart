@@ -69,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF22538D), // Corrected color format
       body: BlocProvider(
         create: (context) => RegisterBloc(),
         child: Padding(

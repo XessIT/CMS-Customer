@@ -53,15 +53,13 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFD188),
-        title: Text('Post Request', style: TextStyle(color: Colors.black)),
+        title: Text('Post Request'),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back),
         ),
       ),
       body: Padding(
@@ -69,7 +67,7 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Category', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Category',style: Theme.of(context).textTheme.bodyMedium),
             SizedBox(height: 8),
             Row(
               children: [
@@ -82,7 +80,7 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
               items: _subCategories.map((String subCategory) {
                 return DropdownMenuItem<String>(
                   value: subCategory,
-                  child: Text(subCategory),
+                  child: Text(subCategory,style: Theme.of(context).textTheme.bodyMedium,),
                 );
               }).toList(),
               onChanged: (String? newValue) {
@@ -90,7 +88,7 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
                   _selectedSubCategory = newValue;
                 });
               },
-              hint: Text('Select Sub Category'),
+              hint: Text('Select Sub Category',style: Theme.of(context).textTheme.bodyMedium),
               isExpanded: true,
             ),
             SizedBox(height: 16),
@@ -99,7 +97,7 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
               items: _postTypes.map((String postType) {
                 return DropdownMenuItem<String>(
                   value: postType,
-                  child: Text(postType),
+                  child: Text(postType,style: Theme.of(context).textTheme.bodyMedium,),
                 );
               }).toList(),
               onChanged: (String? newValue) {
@@ -107,7 +105,7 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
                   _selectedPostType = newValue;
                 });
               },
-              hint: Text('Select Post Type'),
+              hint: Text('Select Post Type',style: Theme.of(context).textTheme.bodyMedium),
               isExpanded: true,
             ),
             SizedBox(height: 16),
@@ -125,7 +123,7 @@ class _PostRequestScreenState extends State<PostRequestScreen> {
                     _selectedEngineer = newValue;
                   });
                 },
-                hint: Text('Select Engineer'),
+                hint: Text('Select Engineer',style: Theme.of(context).textTheme.bodyMedium),
                 isExpanded: true,
               ),
             SizedBox(height: 16),
@@ -229,7 +227,7 @@ class CategoryTile extends StatelessWidget {
           children: [
             Icon(icon, color: Colors.blue),
             SizedBox(width: 8),
-            Text(title, style: TextStyle(fontSize: 16)),
+            Text(title, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),
@@ -271,7 +269,7 @@ class AddLocationButton extends StatelessWidget {
             children: [
               Icon(icon, color: Colors.blue),
               SizedBox(width: 16),
-              Text(title, style: TextStyle(fontSize: 16)),
+              Text(title, style:Theme.of(context).textTheme.bodySmall),
             ],
           ),
         ),
@@ -302,7 +300,7 @@ class AddItemButton extends StatelessWidget {
           children: [
             Icon(icon, color: Colors.blue),
             SizedBox(width: 16),
-            Text(title, style: TextStyle(fontSize: 16)),
+            Text(title, style:Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),
@@ -337,7 +335,7 @@ class EngineerDropdownItem extends StatelessWidget {
             children: [
               Text(
                 engineer.name,
-                style: TextStyle(fontSize: 16),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               Row(
                 children: List.generate(5, (index) {
@@ -354,7 +352,7 @@ class EngineerDropdownItem extends StatelessWidget {
         Spacer(),
         Text(
           '\₹${engineer.minimumCharge.toStringAsFixed(2)}',
-          style: TextStyle(fontSize: 16),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );

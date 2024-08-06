@@ -5,6 +5,8 @@
         android:label="cms_customer"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        android:enableOnBackInvokedCallback="true">
+
 
         <!-- MainActivity -->
         <activity
