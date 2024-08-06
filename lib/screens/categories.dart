@@ -164,7 +164,7 @@ class _CategoriesState extends State<Categories> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   label,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
             ],
@@ -180,11 +180,8 @@ class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
-        //backgroundColor: Color(0xFF22538D),
-        backgroundColor: Color(0xFFFFD188),
-        title: Text('Post Request',style: TextStyle(color: Colors.black) ,),
+        title: Text('Post Request'),
         // leading: IconButton(
         //   icon: Icon(Icons.arrow_back),
         //   onPressed: () {

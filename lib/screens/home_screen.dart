@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_customer/screens/post.dart';
 import 'package:cms_customer/screens/profile.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -61,23 +63,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: CurvedNavigationBar(
-        index: 0,
-        items: <Widget>[
-          Icon(Icons.home, size: 30, color: _selectedIndex == 0 ? Colors.white : Colors.black),
-          Icon(Icons.my_library_books, size: 30, color: _selectedIndex == 1 ? Colors.white : Colors.black),
-          Icon(Icons.add_circle, size: 30, color: _selectedIndex == 2 ? Colors.white : Colors.black),
-          Icon(Icons.history, size: 30, color: _selectedIndex == 3 ? Colors.white : Colors.black),
-          Icon(Icons.more_horiz_outlined, size: 30, color: _selectedIndex == 4 ? Colors.white : Colors.black),
-        ],
-        color: Colors.white,
-        buttonBackgroundColor: Color(0xFF22538D),
-        backgroundColor: Colors.white,
-        animationCurve: Curves.fastEaseInToSlowEaseOut,
-        animationDuration: Duration(milliseconds: 500),
-        onTap: _onItemTapped,
+    return WillPopScope(
+      onWillPop: () async {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.warning,
+          title: 'Exit',
+          desc: 'Do you want to Exit?',
+          width: 400,
+          btnOk: ElevatedButton(
+            onPressed: () {
+              SystemNavigator.pop();
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+            ),
+            child: const Text(
+              'Yes',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          btnCancel: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+            ),
+            child: const Text(
+              'No',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ).show();
+        return false;
+      },
+      child: Scaffold(
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: CurvedNavigationBar(
+          index: 0,
+          items: <Widget>[
+            Icon(Icons.home, size: 30, color: _selectedIndex == 0 ? Colors.white : Colors.black),
+            Icon(Icons.my_library_books, size: 30, color: _selectedIndex == 1 ? Colors.white : Colors.black),
+            Icon(Icons.add_circle, size: 30, color: _selectedIndex == 2 ? Colors.white : Colors.black),
+            Icon(Icons.history, size: 30, color: _selectedIndex == 3 ? Colors.white : Colors.black),
+            Icon(Icons.more_horiz_outlined, size: 30, color: _selectedIndex == 4 ? Colors.white : Colors.black),
+          ],
+          color: Colors.white,
+          buttonBackgroundColor: Color(0xFF22538D),
+          backgroundColor: Colors.white,
+          animationCurve: Curves.fastEaseInToSlowEaseOut,
+          animationDuration: Duration(milliseconds: 500),
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -179,7 +217,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     label,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ),
@@ -263,7 +301,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             ),
           ],
         ),
-        backgroundColor: Color(0xFFFFD188),
+       // backgroundColor: Color(0xFFFFD188),
         elevation: 0,
         toolbarHeight: 80.0, // Increase the height of the AppBar
         actions: [
@@ -337,7 +375,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Elango Saravanan', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+                          Text('Elango Saravanan',style: Theme.of(context).textTheme.bodyLarge,),
                           Text('Customer', style: TextStyle(fontSize: 16, color: Color(0xFFF117D1C),)),
                         ],
                       ),

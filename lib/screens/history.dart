@@ -37,11 +37,9 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
+
       appBar: AppBar(
-        backgroundColor:Color(0xFFFFD188),
-        //backgroundColor: Color(0xFF22538D),
-        title: Text('History', style: TextStyle(color: Colors.black)),
+        title: Text('History'),
         // leading: IconButton(
         //   icon: Icon(Icons.arrow_back),
         //   onPressed: () {

@@ -19,14 +19,14 @@ class AppThemes {
         textStyle: const TextStyle(
           fontSize: 28.0,
           fontWeight: FontWeight.w600,
-          color: Colors.black54,
+          color: Colors.black,
         ),
       ),
       displaySmall: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.w500,
-          color: Colors.black54,
+          color: Colors.black,
         ),
       ),
       bodyLarge: GoogleFonts.tajawal(
@@ -36,11 +36,12 @@ class AppThemes {
           color: Colors.black,
         ),
       ),
+
       bodyMedium: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.normal,
-          color: Colors.black54,
+          color: Colors.black,
         ),
       ),
       titleMedium: GoogleFonts.tajawal(
@@ -60,15 +61,15 @@ class AppThemes {
       bodySmall: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 12.0,
-          fontWeight: FontWeight.w400,
-          color: Colors.grey,
+          //fontWeight: FontWeight.w400,
+          color: Colors.black,
         ),
       ),
       labelLarge: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.w600,
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
     ),
@@ -76,13 +77,20 @@ class AppThemes {
       backgroundColor: Colors.orange.shade100,
     ),
     appBarTheme: const AppBarTheme(
-      color: Colors.white,
+      color: Color(0xFFFFD188),
+      titleTextStyle: TextStyle(color: Colors.black,fontSize: 20),
       iconTheme: IconThemeData(color: Colors.black),
+
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedLabelStyle: TextStyle(color: Colors.white),
       unselectedLabelStyle: TextStyle(color: Colors.white),
       selectedIconTheme: IconThemeData(color: Colors.red),
+    ),
+
+    tabBarTheme: TabBarTheme(
+      labelColor: Colors.black,
+      unselectedLabelColor: Colors.black54,
     ),
     // elevatedButtonTheme: ElevatedButtonThemeData(
     //   style: CustomButtonTheme.primaryButtonStyle(),
@@ -105,49 +113,49 @@ class AppThemes {
         textStyle: const TextStyle(
           fontSize: 28.0,
           fontWeight: FontWeight.w600,
-          color: Colors.black54,
+          color: Colors.black,
         ),
       ),
       displaySmall: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.w500,
-          color: Colors.black54,
+          color: Colors.black,
         ),
       ),
       bodyLarge: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.normal,
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
       bodyMedium: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.normal,
-          color: Colors.black54,
+          color: Colors.white,
         ),
       ),
       titleMedium: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.w600,
-          color: Colors.grey,
+          color: Colors.black,
         ),
       ),
       titleSmall: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.w500,
-          color: Colors.grey,
+          color: Colors.black,
         ),
       ),
       bodySmall: GoogleFonts.tajawal(
         textStyle: const TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.w400,
-          color: Colors.grey,
+          color: Colors.black,
         ),
       ),
       labelLarge: GoogleFonts.tajawal(
@@ -162,8 +170,9 @@ class AppThemes {
       backgroundColor: Colors.orange,
     ),
     appBarTheme: const AppBarTheme(
-      color: Colors.white,
-      iconTheme: IconThemeData(color: Colors.black),
+      color: Colors.black,
+      titleTextStyle: TextStyle(color: Colors.white,fontSize: 20),
+      iconTheme: IconThemeData(color: Colors.white),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.black,
@@ -172,6 +181,12 @@ class AppThemes {
       selectedItemColor: Colors.red,
       selectedIconTheme: IconThemeData(color: Colors.red),
     ),
+
+    tabBarTheme: TabBarTheme(
+      labelColor: Colors.white,
+      unselectedLabelColor: Colors.white54,
+    ),
+
     // elevatedButtonTheme: ElevatedButtonThemeData(
     //   style: CustomButtonTheme.primaryButtonStyle(),
     // ),

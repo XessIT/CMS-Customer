@@ -18,6 +18,8 @@ class _PostDetailsState extends State<PostDetails> {
   late TextEditingController _detailsController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   List<XFile> _selectedImages = [];
+  bool _isLoading = false;
+  double _compressionProgress = 0.0;
 
   @override
   void dispose() {
@@ -26,6 +28,11 @@ class _PostDetailsState extends State<PostDetails> {
   }
 
   Future<void> _pickImage() async {
+    setState(() {
+      _isLoading = true;
+      _compressionProgress = 0.0;
+    });
+
     final pickedFiles = await _picker.pickMultiImage();
     if (pickedFiles != null) {
       if (_selectedImages.length + pickedFiles.length > 4) {
@@ -36,10 +43,14 @@ class _PostDetailsState extends State<PostDetails> {
             backgroundColor: Colors.red,
           ),
         );
+        setState(() {
+          _isLoading = false;
+        });
         return;
       }
       List<XFile> compressedImages = [];
-      for (XFile file in pickedFiles) {
+      for (int i = 0; i < pickedFiles.length; i++) {
+        XFile file = pickedFiles[i];
         final File imageFile = File(file.path);
         final img.Image? image = img.decodeImage(imageFile.readAsBytesSync());
         if (image != null) {
@@ -51,22 +62,29 @@ class _PostDetailsState extends State<PostDetails> {
           compressedImageFile.writeAsBytesSync(compressedImage);
 
           compressedImages.add(XFile(compressedImageFile.path));
+          setState(() {
+            _compressionProgress = (i + 1) / pickedFiles.length;
+          });
         }
       }
 
       setState(() {
         _selectedImages.addAll(compressedImages);
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
       });
     }
   }
-
-
 
   void _removeImage(int index) {
     setState(() {
       _selectedImages.removeAt(index);
     });
   }
+
 
   void _saveDetails() {
     if (_detailsController.text.isEmpty) {
@@ -96,10 +114,8 @@ class _PostDetailsState extends State<PostDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFF3F5FD),
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFD188),
-        title: Text('Details', style: TextStyle(color: Colors.black)),
+        title: Text('Details'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -144,6 +160,17 @@ class _PostDetailsState extends State<PostDetails> {
                 ),
               ),
             ),
+            if (_isLoading)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Column(
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 8),
+                    Text('Compressing images: ${(_compressionProgress * 100).toStringAsFixed(0)}%'),
+                  ],
+                ),
+              ),
             if (_selectedImages.isNotEmpty)
               Wrap(
                 children: _selectedImages.asMap().entries.map((entry) {
