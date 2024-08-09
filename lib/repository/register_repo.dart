@@ -11,8 +11,8 @@ class RegisterRepo {
     await _storage.write(key: 'access_token', value: token);
   }
 
-  static Future<Map<String, dynamic>> registerUser(
-      String firstName, String lastName, String address,
+  static Future<Map<String, dynamic>> registerUser(String firstName,
+      String lastName, String address,
       String mobile, String password) async {
     try {
       final response = await http.post(
@@ -36,10 +36,16 @@ class RegisterRepo {
           await _storeToken(token);
           return {'status': 'success', 'token': token};
         } else {
-          return {'status': 'failure', 'message': responseData['error'] ?? 'Registration failed'};
+          return {
+            'status': 'failure',
+            'message': responseData['error'] ?? 'Registration failed'
+          };
         }
       } else {
-        return {'status': 'failure', 'message': 'Server error: ${response.statusCode}'};
+        return {
+          'status': 'failure',
+          'message': 'Server error: ${response.statusCode}'
+        };
       }
     } catch (error) {
       return {
@@ -48,4 +54,47 @@ class RegisterRepo {
       };
     }
   }
+
+  // Method to get the token from storage
+  static Future<String?> _getToken() async {
+    return await _storage.read(key: 'access_token');
+  }
+
+  // Method to fetch user data
+  static Future<Map<String, dynamic>> fetchUserData() async {
+    final token = await _getToken();
+    if (token == null) {
+      throw Exception('No token found');
+    }
+
+    final response = await http.get(
+      Uri.parse(registerUrl),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    // Check if response body is empty
+    if (response.body.isEmpty) {
+      throw Exception('Empty response body');
+    }
+
+    // Decode JSON response safely
+    try {
+      final responseData = jsonDecode(response.body);
+
+      if (responseData['success']) {
+        return {'status': 'success', 'user': responseData['user']};
+      } else {
+        return {
+          'status': 'failure',
+          'message': responseData['error'] ?? 'Failed to fetch user data'
+        };
+      }
+    } catch (error) {
+      throw Exception('Failed to parse JSON response: $error');
+    }
+  }
+
 }
