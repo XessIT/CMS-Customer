@@ -31,12 +31,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController = TextEditingController();
-
   bool isLoading = false;
-
-  bool _obscureText = true;
-
+  bool _obscureTextPassword = true;
+  bool _obscureTextConfirmPassword = true;
   bool isVerified = false;
+  bool _isButtonVisible = false;
 
   void _verifyOTP() {
     setState(() {
@@ -50,6 +49,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
         isVerified = otpController.text == "123456"; // Replace this with your OTP verification logic
       });
+    });
+  }
+
+  void _validatePasswords() {
+    setState(() {
+      _isButtonVisible = passwordController.text == confirmPasswordController.text && passwordController.text.isNotEmpty;
     });
   }
 
@@ -161,7 +166,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: TextField(
                                     controller: mobileController,
                                     inputFormatters: [
-                                      LengthLimitingTextInputFormatter(10)
+                                      LengthLimitingTextInputFormatter(10),
+                                      FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true),
+
                                     ],
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
@@ -183,7 +190,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                                   child: TextField(
                                     controller: otpController,
-                                    inputFormatters: [LengthLimitingTextInputFormatter(6)],
+                                    inputFormatters: [LengthLimitingTextInputFormatter(6),
+                                      FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true),
+                                    ],
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
                                       labelText: 'OTP',
@@ -221,17 +230,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     decoration: InputDecoration(
                                       labelText: 'Password',
                                       border: const OutlineInputBorder(),
-                                      prefixIcon: const Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
+                                      prefixIcon: const Icon(Icons.phonelink_lock, color: Color(0xFF22538D)),
                                       suffixIcon: IconButton(
-                                        icon: const Icon(Icons.remove_red_eye, color: Color(0xFF22538D)),
+                                        icon: Icon(
+                                          _obscureTextPassword
+                                              ? Icons.remove_red_eye
+                                              : Icons.visibility_off,
+                                          color: Color(0xFF22538D),
+                                        ),
                                         onPressed: () {
                                           setState(() {
-                                            _obscureText = !_obscureText;
+                                            _obscureTextPassword = !_obscureTextPassword;
                                           });
                                         },
-                                      )
+                                      ),
                                     ),
-                                    obscureText: true,
+                                    obscureText: _obscureTextPassword,
+                                    onChanged: (value) {
+                                      _validatePasswords();
+                                    },
                                   ),
                                 ),
                                 Padding(
@@ -243,19 +260,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       LengthLimitingTextInputFormatter(20)
                                     ],
                                     decoration: InputDecoration(
-                                        labelText: 'Confirm Password',
-                                        border: const OutlineInputBorder(),
-                                        prefixIcon: const Icon(Icons.phonelink_lock,color: Color(0xFF22538D),),
-                                        suffixIcon: IconButton(
-                                          icon: const Icon(Icons.remove_red_eye, color: Color(0xFF22538D)),
-                                          onPressed: () {
-                                            setState(() {
-                                              _obscureText = !_obscureText;
-                                            });
-                                          },
-                                        )
+                                      labelText: 'Confirm Password',
+                                      border: const OutlineInputBorder(),
+                                      prefixIcon: const Icon(Icons.phonelink_lock, color: Color(0xFF22538D)),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          _obscureTextConfirmPassword
+                                              ? Icons.remove_red_eye
+                                              : Icons.visibility_off,
+                                          color: Color(0xFF22538D),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureTextConfirmPassword = !_obscureTextConfirmPassword;
+                                          });
+                                        },
+                                      ),
                                     ),
-                                    obscureText: true,
+                                    obscureText: _obscureTextConfirmPassword,
+                                    onChanged: (value) {
+                                      _validatePasswords();
+                                    },
                                   ),
                                 ),
                                 SizedBox(height: screenHeight * 0.05),
@@ -300,6 +325,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                     mobile: mobileController.text,
                                                     otp: otpController.text,
                                                     password: passwordController.text,
+                                                    confirmPassword: confirmPasswordController.text,
                                                   ),
                                                 );
                                               },

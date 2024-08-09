@@ -12,6 +12,7 @@ class RegisterButtonPressed extends RegisterEvent {
   final String mobile;
   final String otp;
   final String password;
+  final String confirmPassword;
 
   RegisterButtonPressed({
     required this.firstName,
@@ -19,9 +20,11 @@ class RegisterButtonPressed extends RegisterEvent {
     required this.address,
     required this.mobile,
     required this.otp,
-    required this.password
+    required this.password,
+    required this.confirmPassword
+
   });
 
   @override
-  List<Object> get props => [firstName, lastName, address, mobile, otp, password];
+  List<Object> get props => [firstName, lastName, address, mobile, otp, password, confirmPassword];
 }

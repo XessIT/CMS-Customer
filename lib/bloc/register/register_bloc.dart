@@ -27,6 +27,11 @@ class  RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       return;
     }
 
+    if (event.password != event.confirmPassword) {
+      emit(RegisterFailure(error: 'Password does not match'));
+      return;
+    }
+
     try {
       // Call the repository function
       final result = await RegisterRepo.registerUser(
